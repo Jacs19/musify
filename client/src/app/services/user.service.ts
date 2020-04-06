@@ -3,7 +3,6 @@ import { HttpClient, HttpHeaders, HttpResponse, HttpParams } from '@angular/comm
 import { map } from 'rxjs/operators';
 //import { Observable } from 'rxjs/Observable';
 import { GLOBAL } from './global';
-import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 
 @Injectable()
 export class UserService{
@@ -55,6 +54,29 @@ export class UserService{
         }
 
         return this.token;
+    }
+
+    register(user_to_register){
+        let body = JSON.stringify(user_to_register);
+        let headers = new HttpHeaders({'Content-Type': 'application/json'});
+
+        return this._http.post(this.url + "register", body, {
+            headers: headers,
+            responseType: 'json'
+        });
+    }
+
+    update_user(user_to_update){
+        let body = JSON.stringify(user_to_update);
+        let headers = new HttpHeaders({
+                        'Content-Type': 'application/json', 
+                        'Authorization': this.getToken()
+                    });
+
+        return this._http.put(this.url + "update-user/" + user_to_update._id, body, {
+            headers: headers,
+            responseType: 'json'
+        });
     }
 
 }
