@@ -26,6 +26,7 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit(){
+    console.log();
     this.identity = this._userService.getIdentity();
     this.token = this._userService.getToken();
   }
@@ -55,8 +56,6 @@ export class AppComponent implements OnInit {
                 alert("El token no se ha generado correctamente");
               }else{
                 localStorage.setItem('token', token);
-                console.log(token);
-                console.log(identity);
                 this.user = new User('', '', '', '', '', 'ROLE_USER', '');
               }
             },

@@ -1,3 +1,46 @@
 <div class="col-lg-6" *ngIf="identity">
     <h1>{{titulo}}</h1>
+
+    <div *ngIf="alertUpdate" class="col-lg-10">
+        <div class="alert alert-info">
+            <strong>Info: </strong> {{alertUpdate}}
+        </div>
+    </div>
+
+    <form #updateForm="ngForm" (ngSubmit)="onSubmit()" class="col-md-10">
+        <p>
+          <label>Nombre:</label>
+          <input #name="ngModel" name="name" [(ngModel)]="user.name" 
+                  type="text" class="form-control" required />
+          <span *ngIf="!name.valid && name.touched"> 
+            El email es obligatorio
+          </span>
+        </p>
+  
+        <p>
+          <label>Apellidos:</label>
+          <input #surname="ngModel" name="surname" [(ngModel)]="user.surname"
+                  type="text" class="form-control" required />
+          <span *ngIf="!surname.valid && surname.touched"> 
+            El email es obligatorio
+          </span>
+        </p>
+  
+        <p>
+          <label>Email:</label>
+          <input #email="ngModel" name="email" [(ngModel)]="user.email" 
+                  type="email" class="form-control" required />
+          <span *ngIf="!email.valid && email.touched"> 
+            El email es obligatorio
+          </span>
+        </p>
+  
+        <p>
+          <label>Password:</label>
+          <input #password="ngModel" name="password" [(ngModel)]="user.password"
+                  type="password" class="form-control" required />
+        </p>
+  
+        <input type="submit" value="Actualizar" class="btn btn-primary" />
+      </form>
 </div>

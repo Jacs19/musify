@@ -1,12 +1,11 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpResponse, HttpParams } from '@angular/common/http';
-import { map } from 'rxjs/operators';
+//import { map } from 'rxjs/operators';
 //import { Observable } from 'rxjs/Observable';
 import { GLOBAL } from './global';
 
 @Injectable()
 export class UserService{
-
     public url: string;
     public identity;
     public token;
@@ -45,7 +44,7 @@ export class UserService{
     }
 
     getToken(){
-        let token = JSON.parse(localStorage.getItem('token'));
+        let token = localStorage.getItem('token');
         
         if(token != undefined){
             this.token = this.token;
@@ -66,14 +65,13 @@ export class UserService{
         });
     }
 
-    update_user(user_to_update){
+    updateUser(user_to_update){
         let body = JSON.stringify(user_to_update);
-        let headers = new HttpHeaders({
-                        'Content-Type': 'application/json', 
-                        'Authorization': this.getToken()
-                    });
-
-        return this._http.put(this.url + "update-user/" + user_to_update._id, body, {
+        let tk = this.getToken();
+        let headers = new HttpHeaders({'Content-Type': 'application/json',
+                                        'Authorization': 'hola'});
+        
+        return this._http.put(this.url + "update-user/" + this.identity._id, body, {
             headers: headers,
             responseType: 'json'
         });
