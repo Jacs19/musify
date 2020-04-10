@@ -47,7 +47,7 @@ export class UserService{
         let token = localStorage.getItem('token');
         
         if(token != undefined){
-            this.token = this.token;
+            this.token = token;
         }else{
             this.token = null;
         }
@@ -69,7 +69,7 @@ export class UserService{
         let body = JSON.stringify(user_to_update);
         let tk = this.getToken();
         let headers = new HttpHeaders({'Content-Type': 'application/json',
-                                        'Authorization': 'hola'});
+                                        'Authorization': tk});
         
         return this._http.put(this.url + "update-user/" + this.identity._id, body, {
             headers: headers,

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from './services/user.service';
 import { User } from './models/user';
+import { GLOBAL } from './services/global';
 
 @Component({
   selector: 'app-root',
@@ -17,12 +18,14 @@ export class AppComponent implements OnInit {
   public token;
   public alertSign;
   public alertRegister;
+  public url;
 
   constructor(
     private _userService: UserService
   ){
     this.user = new User('', '', '', '', '', 'ROLE_USER', '');
     this.user_register = new User('', '', '', '', '', 'ROLE_USER', '');
+    this.url = GLOBAL.url;
   }
 
   ngOnInit(){
@@ -56,7 +59,7 @@ export class AppComponent implements OnInit {
                 alert("El token no se ha generado correctamente");
               }else{
                 localStorage.setItem('token', token);
-                this.user = new User('', '', '', '', '', 'ROLE_USER', '');
+                this.user = new User('', '', '', '', '', 'ROLE_USER', '');                
               }
             },
             error => {

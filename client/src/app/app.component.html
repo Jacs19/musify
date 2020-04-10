@@ -15,7 +15,12 @@
     </a>
   </nav>
   <nav id="user_logged">
-    <span>{{identity.name}} {{identity.surname}}</span>
+    <div class="user-image">
+      <img id="image-logged" src="{{url + 'get-image-user/' + identity.image}}" style="width: 100px;" />
+    </div>
+    <span id="identity_name">
+      {{identity.name}} {{identity.surname}}
+    </span>
     <span class="btn btn-warning" (click)="logout()">
       Cerrar Sesión
     </span>
