@@ -1,0 +1,23 @@
+<h1>
+    {{titulo}}
+</h1>
+
+<form #formArtist="ngForm" (ngSubmit)="onSubmit()" class="col-lg-8">
+    <p>
+        <label>Nombre</label>
+        <input type="text" #name="ngModel" name="name" [(ngModel)]="artist.name" required />
+        <span *ngIf="!name.valid && name.touched">
+            El nombre es obligatorio
+        </span>
+    </p>
+
+    <p>
+        <label>Descripcion</label>
+        <textarea #description="ngModel" name="description" [(ngModel)]="artist.description" required ></textarea>
+        <span *ngIf="!name.valid && name.touched">
+            La descripción es obligatoria
+        </span>
+    </p>
+
+    <input class="btn btn-success" type="submit" value="{{titulo}}" [disabled]="!formArtist.form.valid" />
+</form>
