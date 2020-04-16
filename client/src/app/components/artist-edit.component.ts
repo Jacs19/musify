@@ -7,18 +7,19 @@ import { Artist } from '../models/artist';
 import { ArtistService } from '../services/artist.service';
 
 @Component({
-    selector: 'artist-add',
+    selector: 'artist-edit',
     templateUrl: '../views/artist-add.html',
     providers: [UserService, ArtistService]
 })
 
-export class ArtistAddComponent implements OnInit{
+export class ArtistEditComponent implements OnInit{
     public titulo: string;
     public artist: Artist;
     public identity;
     public token;
     public url: string;
     public alertAdd: string;
+    public is_edit: boolean;
 
     constructor(
         private _route: ActivatedRoute,
@@ -31,10 +32,28 @@ export class ArtistAddComponent implements OnInit{
         this.token = this._userService.getToken();
         this.url = GLOBAL.url;
         this.artist = new Artist("", "", "");
+        this.is_edit = true;
     }
 
     ngOnInit(){
-        console.log("artist-add.component.ts cargado...");        
+        console.log("artist-add.component.ts cargado...");
+        //Llamar al metodo del api para sacar un artista en base a su id getArtist
+        this.getArtist();
+    }
+
+    getArtist(){
+        this._route.params.forEach( (params: Params) => {
+            let id = params['id'];
+
+            this._artistService.getArtist(this.token, id).subscribe(
+                response => {
+
+                },
+                error => {
+
+                }
+            );
+        });
     }
 
     onSubmit(){
