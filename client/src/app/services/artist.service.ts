@@ -25,13 +25,13 @@ export class ArtistService{
         });
     }
 
-    getArtist(token, page){
+    getArtist(token, id){
         let headers = new HttpHeaders({
             'Content-Type': 'application/json',
             'Authorization': token
         });
 
-        return this._http.get(this.url + 'artists/' + page, {
+        return this._http.get(this.url + 'artist/' + id, {
             headers: headers,
             responseType: 'json'
         });

@@ -19,6 +19,7 @@ export class ArtistAddComponent implements OnInit{
     public token;
     public url: string;
     public alertAdd: string;
+    public is_edit: boolean;
 
     constructor(
         private _route: ActivatedRoute,
@@ -31,6 +32,7 @@ export class ArtistAddComponent implements OnInit{
         this.token = this._userService.getToken();
         this.url = GLOBAL.url;
         this.artist = new Artist("", "", "");
+        this.is_edit = false;
     }
 
     ngOnInit(){
@@ -45,7 +47,7 @@ export class ArtistAddComponent implements OnInit{
                 }else{
                     this.alertAdd = 'El artista se ha creado exitosamente';
                     this.artist = response['artist'];
-                    //this._router.navigate(['/editar-artista'], response.artista._id);
+                    this._router.navigate(['/editar-artista/' + response['artist']['_id']]);
                 }
             },
             error => {

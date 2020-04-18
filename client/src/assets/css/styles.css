@@ -68,3 +68,7 @@ html, body{
 .btn-logout{
     cursor: pointer;
 }
+
+.artist_image_for_edit{
+    width: 150px;
+}

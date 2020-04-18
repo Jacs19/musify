@@ -5,11 +5,12 @@ import { GLOBAL } from '../services/global';
 import { UserService } from '../services/user.service';
 import { Artist } from '../models/artist';
 import { ArtistService } from '../services/artist.service';
+import { UploadService } from '../services/upload.service';
 
 @Component({
     selector: 'artist-edit',
     templateUrl: '../views/artist-add.html',
-    providers: [UserService, ArtistService]
+    providers: [UserService, ArtistService, UploadService]
 })
 
 export class ArtistEditComponent implements OnInit{
@@ -25,9 +26,10 @@ export class ArtistEditComponent implements OnInit{
         private _route: ActivatedRoute,
         private _router: Router,
         private _userService: UserService,
-        private _artistService: ArtistService
+        private _artistService: ArtistService,
+        private _uploadService: UploadService
     ){
-        this.titulo = 'Crear nuevo artista';
+        this.titulo = 'Editar artista';
         this.identity = this._userService.getIdentity();
         this.token = this._userService.getToken();
         this.url = GLOBAL.url;
@@ -36,7 +38,7 @@ export class ArtistEditComponent implements OnInit{
     }
 
     ngOnInit(){
-        console.log("artist-add.component.ts cargado...");
+        console.log("artist-edit.component.ts cargado...");
         //Llamar al metodo del api para sacar un artista en base a su id getArtist
         this.getArtist();
     }
@@ -47,34 +49,65 @@ export class ArtistEditComponent implements OnInit{
 
             this._artistService.getArtist(this.token, id).subscribe(
                 response => {
-
+                    if(!response['artist']){
+                        this._router.navigate(['/']);
+                    }else{
+                        this.artist = response['artist'];
+                    }
                 },
                 error => {
-
+                    var errorMessage = <any>error;
+                    if(errorMessage != null){                    
+                      //this.alertAdd = errorMessage.message;
+                      console.log(errorMessage);
+                    }
                 }
             );
         });
     }
 
     onSubmit(){
-        this._artistService.addArtist(this.token, this.artist).subscribe(
-            response => {                
-                if(!response['artist']){
-                    this.alertAdd = 'Error en el servidor';
-                }else{
-                    this.alertAdd = 'El artista se ha creado exitosamente';
-                    this.artist = response['artist'];
-                    //this._router.navigate(['/editar-artista'], response.artista._id);
+        this._route.params.forEach( (params: Params) => {
+            let id = params['id'];
+
+            this._artistService.editArtist(this.token, id, this.artist).subscribe(
+                response => {                
+                    if(!response['artist']){
+                        this.alertAdd = 'Error en el servidor';
+                    }else{
+                        this.alertAdd = 'El artista se ha creado exitosamente';
+                        //this.artist = response['artist'];
+                        //this._router.navigate(['/editar-artista'], response.artista._id);
+
+                        //Subir la imagen de artista
+                        this._uploadService.makeFileRequest(this.url + 'upload-image-artist/' + id,
+                                                            [],
+                                                            this.filesToUpload,
+                                                            this.token,
+                                                            'image')
+                            .then( (result) => {
+                                    this._router.navigate(['/artistas', 1]);
+                                },
+                                (error) => {
+                                    console.log(error);
+                                });
+                    }
+                },
+                error => {
+                    var errorMessage = <any>error;
+                    if(errorMessage != null){                    
+                      this.alertAdd = errorMessage.message;
+                      console.log(errorMessage);
+                    }
                 }
-            },
-            error => {
-                var errorMessage = <any>error;
-                if(errorMessage != null){                    
-                  this.alertAdd = errorMessage.message;
-                  console.log(errorMessage);
-                }
-              }
-        );
+            );
+        });
+    }
+
+    public filesToUpload: Array<File>;
+
+    fileChangeEvent(fileInput: any){
+        this.filesToUpload = <Array<File>>fileInput.target.files;
     }
 
 }
