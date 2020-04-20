@@ -12,16 +12,16 @@
     <form #formArtist="ngForm" (ngSubmit)="onSubmit()">
         <p>
             <label>Nombre</label>
-            <input type="text" #name="ngModel" name="name" [(ngModel)]="artist.name" required />
+            <input class="form-control" type="text" #name="ngModel" name="name" [(ngModel)]="artist.name" required />
             <span *ngIf="!name.valid && name.touched">
                 El nombre es obligatorio
             </span>
         </p>
-    
+        
         <p>
             <label>Descripcion</label>
-            <textarea #description="ngModel" name="description" [(ngModel)]="artist.description" required ></textarea>
-            <span *ngIf="!name.valid && name.touched">
+            <textarea class="form-control" #description="ngModel" name="description" [(ngModel)]="artist.description" required ></textarea>
+            <span *ngIf="!description.valid && description.touched">
                 La descripción es obligatoria
             </span>
         </p>

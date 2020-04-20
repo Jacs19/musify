@@ -50,13 +50,25 @@ export class ArtistService{
         });
     }
 
-    deleteArtists(token, id: string){
+    deleteArtist(token, id: string){ 
         let headers = new HttpHeaders({
             'Content-Type': 'application/json',
             'Authorization': token
         });
 
-        return this._http.get(this.url + 'artist/' + id, {
+        return this._http.delete(this.url + 'artist/' + id, {
+            headers: headers,
+            responseType: 'json'
+        });
+    }
+
+    getArtists(token, page){
+        let headers = new HttpHeaders({
+            'Content-Type': 'application/json',
+            'Authorization': token
+        });
+
+        return this._http.get(this.url + 'artists/' + page, {
             headers: headers,
             responseType: 'json'
         });

@@ -56,8 +56,12 @@ export class ArtistAddComponent implements OnInit{
                   this.alertAdd = errorMessage.message;
                   console.log(errorMessage);
                 }
-              }
+            }
         );
+    }
+
+    fileChangeEvent(fileInput: any){
+        //this.filesToUpload = <Array<File>>fileInput.target.files;
     }
 
 }
