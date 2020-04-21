@@ -81,7 +81,8 @@ html, body{
     cursor: pointer;
 }
 
-.artist_image_for_edit{
+.artist_image_for_edit
+.album_image_for_edit{
     width: 150px;
 }
 

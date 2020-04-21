@@ -6,11 +6,12 @@ import { UserService } from '../services/user.service';
 import { Artist } from '../models/artist';
 import { ArtistService } from '../services/artist.service';
 import { Album } from '../models/album';
+import { AlbumService } from '../services/album.service';
 
 @Component({
     selector: 'album-add',
     templateUrl: '../views/album-add.html',
-    providers: [UserService, ArtistService]
+    providers: [UserService, ArtistService, AlbumService]
 })
 
 export class AlbumAddComponent implements OnInit{
@@ -21,18 +22,20 @@ export class AlbumAddComponent implements OnInit{
     public token;
     public url: string;
     public alertAdd: string;
+    public is_edit: boolean;
 
     constructor(
         private _route: ActivatedRoute,
         private _router: Router,
         private _userService: UserService,
-        private _artistService: ArtistService
+        private _artistService: ArtistService,
+        private _albumService: AlbumService
     ){
         this.titulo = 'Crear nuevo álbum';
         this.identity = this._userService.getIdentity();
         this.token = this._userService.getToken();
         this.url = GLOBAL.url;
-        this.album = new Album("", "", 2019, "", "")  
+        this.album = new Album("", "", 2019, "", "");
     }
 
     ngOnInit(){
@@ -43,8 +46,28 @@ export class AlbumAddComponent implements OnInit{
         this._route.params.forEach( (params: Params) => {
             let artist_id = params['artista'];
             this.album.artist = artist_id;
-        } );
-        console.log(this.album);
+
+            this._albumService.addAlbum(this.token, this.album).subscribe(
+                response => {                
+                    if(!response['album']){
+                        this.alertAdd = 'Error en el servidor';
+                    }else{
+                        this.alertAdd = 'El album se ha creado exitosamente';
+                        this.album = response['album'];
+                        
+                        this._router.navigate(['/editar-album/' + response['album']['_id']]);
+                    }
+                },
+                error => {
+                    var errorMessage = <any>error;
+                    if(errorMessage != null){                    
+                      this.alertAdd = errorMessage.message;
+                      console.log(errorMessage);
+                    }
+                }
+            );
+
+        });
     }
 
 }

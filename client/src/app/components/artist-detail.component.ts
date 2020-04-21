@@ -5,25 +5,28 @@ import { GLOBAL } from '../services/global';
 import { UserService } from '../services/user.service';
 import { Artist } from '../models/artist';
 import { ArtistService } from '../services/artist.service';
+import { AlbumService } from '../services/album.service';
+import { Album } from '../models/album';
 
 @Component({
     selector: 'artist-detail',
     templateUrl: '../views/artist-detail.html',
-    providers: [UserService, ArtistService]
+    providers: [UserService, ArtistService, AlbumService]
 })
 
 export class ArtistDetailComponent implements OnInit{
     public artist: Artist;
+    public albums: Album[];
     public identity;
     public token;
     public url: string;
-    public albums;
 
     constructor(
         private _route: ActivatedRoute,
         private _router: Router,
         private _userService: UserService,
         private _artistService: ArtistService,
+        private _albumService: AlbumService
     ){
         this.identity = this._userService.getIdentity();
         this.token = this._userService.getToken();
@@ -48,6 +51,21 @@ export class ArtistDetailComponent implements OnInit{
                         this.artist = response['artist'];
                                                 
                         //Sacar los albums del artista
+                        this._albumService.getAlbums(this.token, this.artist['_id']).subscribe(
+                            response => {
+                                if(!response['albums']){
+                                    this._router.navigate(['/']);
+                                }else{
+                                    this.albums = response['albums'];                                                               
+                                }
+                            },
+                            error => {
+                                var errorMessage = <any>error;
+                                if(errorMessage != null){                                                      
+                                  console.log(errorMessage);
+                                }
+                            }
+                        );
                     }
                 },
                 error => {
