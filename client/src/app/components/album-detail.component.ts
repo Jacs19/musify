@@ -6,16 +6,18 @@ import { UserService } from '../services/user.service';
 import { Artist } from '../models/artist';
 import { AlbumService } from '../services/album.service';
 import { Album } from '../models/album';
+import { SongService } from '../services/song.service';
+import { Song } from '../models/song';
 
 @Component({
     selector: 'album-detail',
     templateUrl: '../views/album-detail.html',
-    providers: [UserService, AlbumService]
+    providers: [UserService, AlbumService, SongService]
 })
 
-export class AlbumDetailComponent implements OnInit{
-    public artist: Artist;
+export class AlbumDetailComponent implements OnInit{    
     public album: Album;
+    public songs: Song[];
     public identity;
     public token;
     public url: string;
@@ -25,7 +27,8 @@ export class AlbumDetailComponent implements OnInit{
         private _route: ActivatedRoute,
         private _router: Router,
         private _userService: UserService,
-        private _albumService: AlbumService
+        private _albumService: AlbumService,
+        private _songService: SongService
     ){
         this.identity = this._userService.getIdentity();
         this.token = this._userService.getToken();
@@ -34,6 +37,7 @@ export class AlbumDetailComponent implements OnInit{
 
     ngOnInit(){
         console.log("album-detail.component.ts cargado...");
+
         //Llamar al metodo del api para sacar un artista en base a su id getArtist
         this.getAlbum();
     }
@@ -48,6 +52,24 @@ export class AlbumDetailComponent implements OnInit{
                         this._router.navigate(['/']);
                     }else{                        
                         this.album = response['album'];
+
+                        //Sacar las canciones
+                        this._songService.getSongs(this.token, this.album['_id']).subscribe(
+                            response => {                
+                                if(!response['songs']){
+                                    this._router.navigate(['/']);
+                                }else{                        
+                                    this.songs = response['songs'];
+                                   
+                                }
+                            },
+                            error => {
+                                var errorMessage = <any>error;
+                                if(errorMessage != null){                                          
+                                  console.log(errorMessage);
+                                }
+                            }
+                        );
                     }
                 },
                 error => {
@@ -64,14 +86,14 @@ export class AlbumDetailComponent implements OnInit{
         this.confirmado = id;
     }
 
-    onCancelAlbum(){
+    onCancelSong(){
         this.confirmado = null;
     }
 
-    onDeleteAlbum(id){
-        this._albumService.deleteAlbum(this.token, id).subscribe(
+    onDeleteSong(id){
+        this._songService.deleteSong(this.token, id).subscribe(
             response => {                
-                if(!response['albumRemoved']){
+                if(!response['song']){
                     alert("Error en el servidor");
                 }else{                        
                     this.getAlbum();

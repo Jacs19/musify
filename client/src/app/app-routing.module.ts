@@ -10,6 +10,7 @@ import { AlbumAddComponent } from './components/album-add.component';
 import { AlbumEditComponent } from './components/album-edit.component';
 import { AlbumDetailComponent } from './components/album-detail.component';
 import { SongAddComponent } from './components/song.add.component';
+import { SongEditComponent } from './components/song-edit.component';
 
 
 const routes: Routes = [
@@ -50,12 +51,16 @@ const routes: Routes = [
     component: SongAddComponent 
   },
   {
+    path: 'editar-cancion/:id',
+    component: SongEditComponent 
+  },
+  {
       path: 'mis-datos',
       component: UserEditComponent
   },
   {
       path: '**',
-      component: HomeComponent
+      component: HomeComponent 
   }
 ];
 
