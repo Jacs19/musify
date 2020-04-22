@@ -8,6 +8,8 @@ import { ArtistEditComponent } from './components/artist-edit.component';
 import { ArtistDetailComponent } from './components/artist-detail.component';
 import { AlbumAddComponent } from './components/album-add.component';
 import { AlbumEditComponent } from './components/album-edit.component';
+import { AlbumDetailComponent } from './components/album-detail.component';
+import { SongAddComponent } from './components/song.add.component';
 
 
 const routes: Routes = [
@@ -38,6 +40,14 @@ const routes: Routes = [
   {
     path: 'editar-album/:id',
     component: AlbumEditComponent
+  },
+  {
+    path: 'album/:id',
+    component: AlbumDetailComponent
+  },
+  {
+    path: 'crear-cancion/:id',
+    component: SongAddComponent 
   },
   {
       path: 'mis-datos',

@@ -15,7 +15,7 @@ html, body{
 }
 
 .seguro{
-    margin-top: 30px;
+    margin-top: -30px;
     background: #222326;
     position: absolute;
     height: 40px;
@@ -81,19 +81,22 @@ html, body{
     cursor: pointer;
 }
 
-.artist_image_for_edit
+/* ARTISTA Y ALBUM */
+.artist_image_for_edit,
 .album_image_for_edit{
     width: 150px;
 }
 
-.artist-list{
+.artist-list,
+.album-list{
     margin: 0px;
     padding: 0px;
     margin-top: 30px;
     list-style: none;
 }
 
-.artist-item{
+.artist-item,
+.album-item{
     width: 23%;
     margin: 0px;
     padding: 0px;
@@ -103,7 +106,8 @@ html, body{
     margin-top: 20px;
 }
 
-.artist-item .artist_image{
+.artist-item .artist_image,
+.album-item .album_image{
     width: 100%;
     height: 245px;
     overflow: hidden;
@@ -114,17 +118,35 @@ html, body{
     height: 100%;    
 }
 
-.artist-item .artist-name{
+.artist-item .artist-name,
+.album-item .album-name{
     color: white;
     padding: 10px;
     background: #222326;
 }
 
-.artist-item .artist-name a{
+.artist-item .artist-name a,
+.album-item .album-name a{
     color: white;
 }
 
-#artist-head-card .image{
+/* ALBUM */
+.album-item{
+    height: 357px;
+}
+
+.album-item .album_image img{
+    width: 100%;
+}
+
+.seguro-album{
+    margin-top: -41px;
+    margin-left: 10px;
+}
+
+/* DETALLE DE ARTISTA Y ALBUM */
+#artist-head-card .image,
+#album-head-card .image{
     width: 150px;
     height: 150px;
     overflow: hidden;
@@ -132,6 +154,7 @@ html, body{
     margin-right: 30px;
 }
 
-#artist-head-card .image img{
+#artist-head-card .image img,
+#album-head-card .image img{
     height: 150px;
 }

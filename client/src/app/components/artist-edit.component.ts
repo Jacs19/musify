@@ -75,22 +75,24 @@ export class ArtistEditComponent implements OnInit{
                     if(!response['artist']){
                         this.alertAdd = 'Error en el servidor';
                     }else{
-                        this.alertAdd = 'El artista se ha creado exitosamente';
-                        //this.artist = response['artist'];
-                        //this._router.navigate(['/editar-artista'], response.artista._id);
+                        this.alertAdd = 'El artista se ha actualizado exitosamente';                                                
 
-                        //Subir la imagen de artista
-                        this._uploadService.makeFileRequest(this.url + 'upload-image-artist/' + id,
-                                                            [],
-                                                            this.filesToUpload,
-                                                            this.token,
-                                                            'image')
-                            .then( (result) => {
-                                    this._router.navigate(['/artistas', 1]);
-                                },
-                                (error) => {
-                                    console.log(error);
+                        if(!this.filesToUpload){
+                            this._router.navigate(['/artista', response['artist']['_id']]);
+                        }else{
+                            //Subir la imagen de artista
+                            this._uploadService.makeFileRequest(this.url + 'upload-image-artist/' + id,
+                                                                [],
+                                                                this.filesToUpload,
+                                                                this.token,
+                                                                'image')
+                                .then( (result) => {
+                                        this._router.navigate(['/artista', response['artist']['_id']]);
+                                    },
+                                    (error) => {
+                                        console.log(error);
                                 });
+                        }
                     }
                 },
                 error => {

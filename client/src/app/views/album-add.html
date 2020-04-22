@@ -1,13 +1,13 @@
-<div class="col-lg-6">
-    <div *ngIf="alertAdd" class="col-lg-10">
+<div class="col-lg-6">    
+    <h1>
+        {{titulo}}
+    </h1>
+
+    <div *ngIf="alertAdd" class="col-lg-12">
         <div class="alert alert-info">
             <strong>Info: </strong> {{alertAdd}}
         </div>
     </div>
-    
-    <h1>
-        {{titulo}}
-    </h1>    
     
     <form #formAlbum="ngForm" (ngSubmit)="onSubmit()">            
         <p>
