@@ -82,6 +82,7 @@ export class SongEditComponent implements OnInit{
                         //Subir el fichero de audio
                         if(!this.filesToUpload){
                             //Redirigir
+                            this._router.navigate(['/album', this.song.album['_id']]);
                         }else{
                             //Subir la imagen de artista
                             this._uploadService.makeFileRequest(this.url + 'upload-file-song/' + id,

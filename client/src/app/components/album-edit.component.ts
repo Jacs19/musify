@@ -84,19 +84,20 @@ export class AlbumEditComponent implements OnInit{
                         
                         if(!this.filesToUpload){
                             //Redirigir
+                            this._router.navigate(['/artista', this.album.artist['_id']]);
                         }else{
                             //Subir la imagen de artista
-                        this._uploadService.makeFileRequest(this.url + 'upload-image-album/' + id,
-                                                            [],
-                                                            this.filesToUpload,
-                                                            this.token,
-                                                            'image')
-                            .then( (result) => {
-                                    this._router.navigate(['/artista', this.album.artist['_id']]);
-                                },
-                                (error) => {
-                                    console.log(error);
-                                });
+                            this._uploadService.makeFileRequest(this.url + 'upload-image-album/' + id,
+                                                                [],
+                                                                this.filesToUpload,
+                                                                this.token,
+                                                                'image')
+                                .then( (result) => {
+                                        this._router.navigate(['/artista', this.album.artist['_id']]);
+                                    },
+                                    (error) => {
+                                        console.log(error);
+                                    });
                         }                        
                     }
                 },
